@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wizard_report_download_xls" model="ir.ui.view" >
+        <field name="name">wizard.report.download.xls.form</field>
+        <field name="model">wizard.report.download.xls</field>
+        <field name="arch" type="xml">
+            <form string="Report XLS"  create="false" edit="false">
+                <sheet>
+                    <group>
+                        <label for="file" string="Save the file with '.xls' extension." />
+                        <field name="file_name" invisible="1"/>
+                        <field name="file" readonly="1" widget="binary" filename="file_name" nolabel="1"/>
+                    </group>
+                    <footer>
+                        <button string="Close" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wizard_report_xls" model="ir.ui.view" >
+        <field name="name">wizard.report.xls.form</field>
+        <field name="model">wizard.report.xls</field>
+        <field name="arch" type="xml">
+            <form string="Report XLS"  create="false" edit="false">
+                <sheet>
+                    <h3>
+                        To Generate Sineazo Fra Report.xls press 'Generate XLS' button."
+                    </h3>
+                    <button string="Generate XLS" class="oe_highlight" name="generate_xls" type="object"/>
+                    <footer>
+                        <button string="Close" class="oe_highlight" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sineazo_report" model="ir.actions.act_window">
+        <field name="name">Sineazo Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wizard.report.xls</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+            id="menu_sineazo_report"
+            name="Sineazo Report"
+            parent="account.menu_finance_reports"
+            action="action_sineazo_report"/>
+
+</odoo>
