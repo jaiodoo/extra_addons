@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 ACSONE SA/NV
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_contract_create_form_view">
+        <field name="model">account.move.contract.create</field>
+        <field name="arch" type="xml">
+            <form string="Contract Creation">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="contract_id"  states="step2" readonly="1"/>
+                            <field name="code" states="step1"/>
+                            <field name="date_start" />
+                            <field name="date_end" required="1"/>
+                        </group>
+                        <group>
+                            <field name="invoice_id" readonly="1"/>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <label for="recurring_interval"/>
+                            <div class="o_row">
+                                <field name="recurring_interval"
+                                       class="oe_inline" nolabel="1"/>
+                                <field name="recurring_rule_type"
+                                       class="oe_inline" nolabel="1"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="creation_type" widget="radio" states="step2"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_contract"
+                                string="Next"
+                                class="btn-primary"
+                                type="object" states="step1"/>
+                        <button name="goto_step1"
+                                string="Back"
+                                class="btn-primary" states="step2"
+                                type="object"/>
+                        <button name="goto_step3"
+                                string="Finish"
+                                class="btn-primary" states="step2"
+                                type="object"/>
+                        <button string="Cancel"
+                                class="btn-default"
+                                special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

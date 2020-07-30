@@ -1068,6 +1068,8 @@ class ContractLine(models.Model):
         return contract_line
 
     def cancel(self):
+        if self.env.context.get('force_cancel', False):
+            return self.write({'is_canceled': True, 'is_auto_renew': False})
         if not all(self.mapped('is_cancel_allowed')):
             raise ValidationError(_('Cancel not allowed for this line'))
         for contract in self.mapped('contract_id'):

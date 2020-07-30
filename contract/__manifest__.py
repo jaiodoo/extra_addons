@@ -44,6 +44,7 @@
         'wizards/contract_line_wizard.xml',
         'wizards/contract_manually_create_invoice.xml',
         'wizards/contract_contract_terminate.xml',
+        'wizards/account_move_create_contract.xml',
         'views/contract_tag.xml',
         'views/assets.xml',
         'views/abstract_contract_line.xml',
@@ -54,6 +55,7 @@
         'views/res_partner_view.xml',
         'views/res_config_settings.xml',
         'views/contract_terminate_reason.xml',
+        'views/account_move_view.xml',
     ],
     'installable': True,
 }
