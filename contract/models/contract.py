@@ -34,8 +34,12 @@ class ContractContract(models.Model):
     )
     currency_id = fields.Many2one(
         compute="_compute_currency_id",
+        inverse="_inverse_currency_id",
         comodel_name="res.currency",
         string="Currency",
+    )
+    manual_currency_id = fields.Many2one(
+        comodel_name="res.currency",
         readonly=True,
     )
     contract_template_id = fields.Many2one(
@@ -161,6 +165,33 @@ class ContractContract(models.Model):
                 rec.journal_id.currency_id.id or
                 rec.company_id.currency_id.id
             )
+
+    def _get_computed_currency(self):
+        """Helper method for returning the theoretical computed currency."""
+        self.ensure_one()
+        currency = self.env['res.currency']
+        if any(self.contract_line_ids.mapped('automatic_price')):
+            # Use pricelist currency
+            currency = (
+                self.pricelist_id.currency_id or
+                self.partner_id.with_context(
+                    force_company=self.company_id.id,
+                ).property_product_pricelist.currency_id
+            )
+        return (
+            currency or self.journal_id.currency_id or
+            self.company_id.currency_id
+        )
+
+    def _inverse_currency_id(self):
+        """If the currency is different from the computed one, then save it
+        in the manual field.
+        """
+        for rec in self:
+            if rec._get_computed_currency() != rec.currency_id:
+                rec.manual_currency_id = rec.currency_id
+            else:
+                rec.manual_currency_id = False
 
     def _compute_invoice_count(self):
         for rec in self:
@@ -415,7 +446,6 @@ class ContractContract(models.Model):
         :return: contract lines (contract.line recordset)
         """
         self.ensure_one()
-
         def can_be_invoiced(l):
             return (not l.is_canceled and l.recurring_next_date
                     and l.recurring_next_date <= date_ref)
