@@ -17,7 +17,11 @@
     'website': "",
     'depends': ['account'],
     'data': [
-        'views/template.xml'
+        'views/template.xml',
+        'views/account_view.xml'
+    ],
+    'qweb': [
+        'static/src/xml/tax_group.xml',
     ],
     'installable': True,
     'auto_install': False,
